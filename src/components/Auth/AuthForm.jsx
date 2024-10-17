@@ -1,8 +1,9 @@
 import { useState } from 'react';
-
 import classes from './AuthForm.module.css';
+import singUp, { signIn } from '../../Firebase/authFun';
 
 const AuthForm = () => {
+  
   const [isLogin, setIsLogin] = useState(true);
   const [message, setMessage] = useState("");
 
@@ -10,27 +11,35 @@ const AuthForm = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // const path = import.meta.env.VITE_FIREBASE_PATH
+
+    const email = event.target.email.value
+    const password = event.target.password.value
     try {
 
       if (isLogin) {
         // Login logic
+        const user =  await signIn(email, password)
 
-        alert("Login success", event.target.name.value);
+        // console.log(user.uid); // token
 
+        
       } else {
         // Sign up logic
         setMessage("Sending request...");
         
-        // throw new Error("Email Exceed")
+        await singUp(email, password)
       }
     } catch (error) {
       console.error(error);
-      setMessage("");
       alert(error.message)
     }
-
+    
+    setMessage("");
+    event.target.reset();
   }
 
 
