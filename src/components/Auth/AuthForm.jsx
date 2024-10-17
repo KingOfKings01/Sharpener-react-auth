@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import classes from './AuthForm.module.css';
 import singUp, { signIn } from '../../Firebase/authFun';
+import { authContext } from '../../store/authContext';
 
 const AuthForm = () => {
   
   const [isLogin, setIsLogin] = useState(true);
   const [message, setMessage] = useState("");
+  const {login} = useContext(authContext)
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -13,8 +15,6 @@ const AuthForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // const path = import.meta.env.VITE_FIREBASE_PATH
 
     const email = event.target.email.value
     const password = event.target.password.value
@@ -25,6 +25,8 @@ const AuthForm = () => {
         const user =  await signIn(email, password)
 
         // console.log(user.uid); // token
+        login(user.uid)
+        
 
         
       } else {
