@@ -3,7 +3,7 @@ import { Link, } from 'react-router-dom';
 import classes from './MainNavigation.module.css';
 import { useContext, useState } from 'react';
 import { authContext } from '../../store/authContext';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import { Redirect } from 'react-router-dom';
 
 const MainNavigation = () => {
   const { token, logout } = useContext(authContext)
