@@ -1,13 +1,19 @@
-import { Link } from 'react-router-dom';
+import { Link, } from 'react-router-dom';
 
 import classes from './MainNavigation.module.css';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { authContext } from '../../store/authContext';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 const MainNavigation = () => {
-  const { token , logout } = useContext(authContext)
+  const { token, logout } = useContext(authContext)
+  const [isLogout, isLetLogout] = useState(false);
 
-  console.log(token);
+  const logoutHandler = () => {
+    isLetLogout(true)
+    logout();
+  }
+
   return (
     <header className={classes.header}>
       <Link to='/'>
@@ -16,19 +22,23 @@ const MainNavigation = () => {
       <nav>
         <ul>
           {
-            token.length > 0
+            (token)
               ?
               <>
                 <li>
                   <Link to='/profile'>Profile</Link>
                 </li>
                 <li>
-                  <button onClick={logout}>Logout</button>
+                  <button onClick={logoutHandler}>Logout</button>
                 </li>
               </>
               :
               <li>
-                <Link to='/auth'>Login</Link>
+                <button onClick={logoutHandler}>Login</button>
+                {
+                  isLogout &&
+                  <Redirect to="/auth" />
+                }
               </li>
           }
         </ul>

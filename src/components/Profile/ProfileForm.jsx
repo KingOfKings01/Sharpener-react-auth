@@ -12,7 +12,7 @@ const ProfileForm = () => {
       await setNewPassword(newPassword)
 
     } catch(e){
-      console.error(e.message);
+      // console.error(e.message);
       alert(e.message);
     }
 
