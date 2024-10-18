@@ -27,8 +27,6 @@ const AuthForm = () => {
         // console.log(user.uid); // token
         login(user.uid)
         
-
-        
       } else {
         // Sign up logic
         setMessage("Sending request...");
